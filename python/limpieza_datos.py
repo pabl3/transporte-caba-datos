@@ -15,7 +15,7 @@ df.rename(columns={'TIPO_TRANSPORTE': 'tipo_transporte',
                    'CANTIDAD': 'cantidad'}, inplace=True)
 
 # Convertir tipos
-df['fecha'] = pd.to_datetime(df['fecha'], format='%d%b%Y:%H:%M:%S', errors='coerce') # ¡Formato corregido!
+df['fecha'] = pd.to_datetime(df['fecha'], format='%d%b%Y:%H:%M:%S', errors='coerce')
 df['cantidad'] = pd.to_numeric(df['cantidad'], errors='coerce')
 
 print("\nDEBUG: Información del DataFrame después de la conversión de tipos:")
