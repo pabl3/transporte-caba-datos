@@ -15,7 +15,7 @@ df.rename(columns={'TIPO_TRANSPORTE': 'tipo_transporte',
                    'CANTIDAD': 'cantidad'}, inplace=True)
 
 # Convertir tipos
-df['fecha'] = pd.to_datetime(df['fecha'], format='%d%b%Y:%H:%M:%S', errors='coerce') # ¡Formato corregido!
+df['fecha'] = pd.to_datetime(df['fecha'], format='%d%b%Y:%H:%M:%S', errors='coerce')
 df['cantidad'] = pd.to_numeric(df['cantidad'], errors='coerce')
 
 print("\nDEBUG: Información del DataFrame después de la conversión de tipos:")
@@ -31,19 +31,20 @@ print(f"\nDEBUG: Filas eliminadas por NaT en 'fecha': {initial_rows - len(df)}")
 df.drop_duplicates(inplace=True)
 print(f"DEBUG: Filas después de drop_duplicates: {len(df)}")
 
-
-# Estadísticas básicas
+# Estadísticas básicas y visualizaciones
 if not df.empty:
     print("\nDEBUG: DataFrame NO está vacío. Procediendo con las estadísticas y gráficos.")
     print("\n--- Suma de 'cantidad' por 'tipo_transporte' ---")
     print(df.groupby('tipo_transporte')['cantidad'].sum())
 
-    df['mes'] = df['fecha'].dt.to_period('M')
+    # La columna 'mes' se crea temporalmente para el gráfico y se elimina antes de exportar
+    df_temp_for_plot = df.copy() # Hacemos una copia para no alterar el df principal con 'mes'
+    df_temp_for_plot['mes'] = df_temp_for_plot['fecha'].dt.to_period('M')
     print("\n--- Suma de 'cantidad' por 'mes' ---")
-    print(df.groupby('mes')['cantidad'].sum())
+    print(df_temp_for_plot.groupby('mes')['cantidad'].sum())
 
     # Visualización por mes
-    viajes_mensuales = df.groupby('mes')['cantidad'].sum()
+    viajes_mensuales = df_temp_for_plot.groupby('mes')['cantidad'].sum()
 
     plt.figure(figsize=(12, 6))
     viajes_mensuales.plot(kind='bar', color='skyblue', title='Viajes mensuales con SUBE')
@@ -57,8 +58,6 @@ if not df.empty:
     plt.savefig(os.path.join(screenshots_dir, 'viajes_mensuales.png'))
     plt.close()
 
-    # Exportar Excel limpio
-    df = df.drop(columns=['mes'])
     excel_output_path = 'C:\\Users\\pabli\\OneDrive\\Desktop\\transporte-caba-datos\\data\\viajes_limpios.xlsx'
     df.to_excel(excel_output_path, index=False)
-    print("\nProceso completado: DataFrame no vacío, estadísticas, gráfico y exportación realizados.")
+    print(f"DEBUG: Archivo Excel exportado correctamente en: {excel_output_path}")
