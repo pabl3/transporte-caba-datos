@@ -48,8 +48,7 @@ https://datos.gob.ar/
 
 
 ## Autor:
-Pablo Asselborn
-Estudiante de Ciencia de Datos | Analista de Datos Jr.
+Pablo Asselborn | Analista de Datos Jr.
 📍 Argentina
 LinkedIn: https://www.linkedin.com/in/pablo-asselborn-39b815247/
 
