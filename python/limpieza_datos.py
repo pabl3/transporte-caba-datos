@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import os
 
-# Cargar archivo CSV
+# Cargar archivo CSV, si se utilizara debe cambiarse la ruta.
 df = pd.read_csv('C:\\Users\\pabli\\OneDrive\\Desktop\\transporte-caba-datos\\data\\dataset_viajes_sube.csv',
                  header=0,
                  names=['TIPO_TRANSPORTE', 'DIA', 'PARCIAL', 'CANTIDAD'],
